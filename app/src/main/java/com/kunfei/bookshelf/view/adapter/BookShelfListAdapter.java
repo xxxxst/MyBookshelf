@@ -27,8 +27,11 @@ import com.kunfei.bookshelf.widget.BadgeView;
 import com.victor.loading.rotate.RotateLoading;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -113,6 +116,29 @@ public class BookShelfListAdapter extends RecyclerView.Adapter<BookShelfListAdap
         }
         holder.tvName.setText(bookInfoBean.getName());
         holder.tvAuthor.setText(bookInfoBean.getAuthor());
+        long time = bookInfoBean.getFinalRefreshData();
+        try{
+            Date date = new Date(time);
+            Date now = new Date();
+            long nowTime = now.getTime();
+            long day3 = 3 * 24 * 60 * 60 * 1000;
+            long day1 = 1 * 24 * 60 * 60 * 1000;
+            long hour1 = 1 * 60 * 60 * 1000;
+            long gapTime = nowTime - time;
+            String str = "";
+            if(gapTime > day3){
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                str = format.format(date);
+            }else if(gapTime > day1){
+                str = (gapTime / day1 + 1) + "天前更新";
+            }else if (gapTime > hour1){
+                str = (gapTime / hour1 + 1) + "小时前更新";
+            }else {
+                str = "1小时内更新";
+            }
+            holder.tvLastUpdateTime.setText(str);
+        }catch (Exception ex){}
+
         holder.tvRead.setText(bookShelfBean.getDurChapterName());
         holder.tvLast.setText(bookShelfBean.getLastChapterName());
         holder.ivCover.setOnClickListener(v -> {
@@ -187,6 +213,7 @@ public class BookShelfListAdapter extends RecyclerView.Adapter<BookShelfListAdap
         BadgeView bvUnread;
         TextView tvName;
         TextView tvAuthor;
+        TextView tvLastUpdateTime;
         TextView tvRead;
         TextView tvLast;
         RotateLoading rotateLoading;
@@ -200,6 +227,7 @@ public class BookShelfListAdapter extends RecyclerView.Adapter<BookShelfListAdap
             tvRead = itemView.findViewById(R.id.tv_read);
             tvLast = itemView.findViewById(R.id.tv_last);
             tvAuthor = itemView.findViewById(R.id.tv_author);
+            tvLastUpdateTime = itemView.findViewById(R.id.tv_last_update_time);
             rotateLoading = itemView.findViewById(R.id.rl_loading);
             rotateLoading.setLoadingColor(ThemeStore.accentColor(itemView.getContext()));
         }

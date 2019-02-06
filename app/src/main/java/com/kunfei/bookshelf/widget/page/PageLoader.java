@@ -225,7 +225,7 @@ public abstract class PageLoader {
         // 绘制标题的画笔
         mTitlePaint = new TextPaint();
         mTitlePaint.setColor(readBookControl.getTextColor());
-        mTitlePaint.setTextSize(mTitleSize);
+        mTitlePaint.setTextSize(mTitleSize + 20);
         mTitlePaint.setStyle(Paint.Style.FILL_AND_STROKE);
         mTitlePaint.setTypeface(Typeface.create(typeface, Typeface.BOLD));
         mTitlePaint.setTextAlign(Paint.Align.CENTER);
@@ -269,7 +269,7 @@ public abstract class PageLoader {
         // 设置画笔的字体大小
         mTextPaint.setTextSize(mTextSize);
         // 设置标题的字体大小
-        mTitlePaint.setTextSize(mTitleSize);
+        mTitlePaint.setTextSize(mTitleSize + 20);
         mTextEndPaint.setTextSize(mTextEndSize);
 
         // setupTextInterval

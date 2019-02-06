@@ -134,9 +134,9 @@ public class ReadBookControl {
             textDrawable.add(temp2);
 
             Map<String, Integer> temp3 = new HashMap<>();
-            temp3.put("textColor", Color.parseColor("#22482C"));
+            temp3.put("textColor", Color.parseColor("#A9AF9D"));
             temp3.put("bgIsColor", 1);
-            temp3.put("textBackground", Color.parseColor("#E1F1DA"));
+            temp3.put("textBackground", Color.parseColor("#354F44"));
             temp3.put("darkStatusIcon", 1);
             textDrawable.add(temp3);
 

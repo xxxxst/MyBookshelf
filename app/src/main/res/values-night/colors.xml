@@ -23,6 +23,8 @@
 
     <color name="tv_text_default">#ffffffff</color>
     <color name="tv_text_secondary">#e5ffffff</color>
+    <color name="tv_text_author">#85ffffff</color>
+    <color name="tv_text_now_chapter">#85ffffff</color>
     <color name="tv_text_summary">#b3ffffff</color>
     <color name="menu_color_default">#b7b7b7</color>
 
@@ -33,4 +35,8 @@
 
     <!--statusBarBackground-->
     <color name="navigation_bar_bag">#222222</color>
+
+    <!--chapter list text color-->
+    <color name="selector_chapter_item_daytime">#707070</color>
+    <color name="selector_chapter_item_night">#dedede</color>
 </resources>

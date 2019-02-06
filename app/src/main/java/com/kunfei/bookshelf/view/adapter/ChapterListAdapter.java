@@ -1,6 +1,8 @@
 //Copyright (c) 2017. 章钦豪. All rights reserved.
 package com.kunfei.bookshelf.view.adapter;
 
+import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,8 +39,22 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
     public ChapterListAdapter(BookShelfBean bookShelfBean, @NonNull OnItemClickListener itemClickListener) {
         this.bookShelfBean = bookShelfBean;
         this.itemClickListener = itemClickListener;
-        normalColor = MApplication.getAppResources().getColor(R.color.selector_chapter_item);
+        //normalColor = MApplication.getAppResources().getColor(R.color.selector_chapter_item);
+        if(isNightTheme()){
+            normalColor = MApplication.getAppResources().getColor(R.color.selector_chapter_item_night);
+        }else{
+            normalColor = MApplication.getAppResources().getColor(R.color.selector_chapter_item_daytime);
+        }
         highlightColor = ThemeStore.accentColor(MApplication.getInstance());
+        //Log.i("-abc-", "aaa," + (long)(normalColor & 0xffffffffl));
+    }
+
+    /**
+     * @return 是否夜间模式
+     */
+    public boolean isNightTheme() {
+        SharedPreferences preferences = MApplication.getInstance().getConfigPreferences();
+        return preferences.getBoolean("nightTheme", false);
     }
 
     public void upChapter(int index) {

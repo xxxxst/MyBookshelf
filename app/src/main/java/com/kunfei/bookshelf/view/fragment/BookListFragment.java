@@ -3,7 +3,9 @@ package com.kunfei.bookshelf.view.fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -96,6 +98,27 @@ public class BookListFragment extends MBaseFragment<BookListContract.Presenter> 
         }
         rvBookshelf.setAdapter((RecyclerView.Adapter) bookShelfAdapter);
         refreshLayout.setColorSchemeColors(ThemeStore.accentColor(MApplication.getInstance()));
+        //refreshLayout.setEnabled(false);
+        rvBookshelf.addOnScrollListener( new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                //Log.i("-abcd1-", "" + newState);
+                if(newState == 0){
+                    int posY = rvBookshelf.computeVerticalScrollOffset();
+                    refreshLayout.setEnabled(posY <= 50);
+                    //Log.i("-abcd1-", "" + newState + "," + posY);
+                }
+            }
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                //if(dy > 0){
+                //    return;
+                //}
+                //int posY = rvBookshelf.computeVerticalScrollOffset();
+                //refreshLayout.setEnabled(posY <= 0);
+                //Log.i("-abcd2-", "" + dy + "," + posY);
+            }
+        });
     }
 
     @Override
