@@ -134,29 +134,32 @@ public class BaseModelImpl {
     protected Observable<String> getAjaxHtml(AnalyzeUrl analyzeUrl, String sourceUrl) {
         return Observable.create(e -> {
             Handler handler = new Handler(Looper.getMainLooper());
-            class HtmlOutJavaScriptInterface {
-
-                @SuppressWarnings("unused")
-                @JavascriptInterface
-                public void processHTML(String html) {
-                    e.onNext(html);
-                    e.onComplete();
-                }
-            }
             handler.post(() -> {
+                class HtmlOutJavaScriptInterface {
+                    private WebView webView;
+
+                    private HtmlOutJavaScriptInterface(WebView webView) {
+                        this.webView = webView;
+                    }
+
+                    @SuppressWarnings("unused")
+                    @JavascriptInterface
+                    public void processHTML(String html) {
+                        e.onNext(html);
+                        e.onComplete();
+                        webView.destroy();
+                    }
+                }
                 WebView webView = new WebView(MApplication.getInstance());
                 webView.getSettings().setJavaScriptEnabled(true);
                 webView.getSettings().setUserAgentString(analyzeUrl.getHeaderMap().get("User-Agent"));
-                webView.addJavascriptInterface(new HtmlOutJavaScriptInterface(), "HTML_OUT");
+                webView.addJavascriptInterface(new HtmlOutJavaScriptInterface(webView), "HTML_OUT");
                 CookieManager cookieManager = CookieManager.getInstance();
                 webView.setWebViewClient(new WebViewClient() {
                     @Override
                     public void onPageFinished(WebView view, String url) {
-                        handler.postDelayed(() -> {
-                            DbHelper.getDaoSession().getCookieBeanDao().insertOrReplace(new CookieBean(sourceUrl, cookieManager.getCookie(webView.getUrl())));
-                            webView.loadUrl("javascript:window.HTML_OUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
-                            handler.postDelayed(webView::destroy, 1000);
-                        }, 2000);
+                        DbHelper.getDaoSession().getCookieBeanDao().insertOrReplace(new CookieBean(sourceUrl, cookieManager.getCookie(webView.getUrl())));
+                        webView.loadUrl("javascript:window.HTML_OUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
                     }
                 });
                 switch (analyzeUrl.getUrlMode()) {

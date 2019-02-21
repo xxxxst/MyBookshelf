@@ -15,13 +15,13 @@ import com.kunfei.bookshelf.MApplication;
 import com.kunfei.bookshelf.R;
 import com.kunfei.bookshelf.base.MBaseFragment;
 import com.kunfei.bookshelf.bean.BookShelfBean;
-import com.kunfei.bookshelf.help.MyItemTouchHelpCallback;
+import com.kunfei.bookshelf.help.ItemTouchHelpCallback;
 import com.kunfei.bookshelf.presenter.BookDetailPresenter;
 import com.kunfei.bookshelf.presenter.BookListPresenter;
 import com.kunfei.bookshelf.presenter.ReadBookPresenter;
 import com.kunfei.bookshelf.presenter.contract.BookListContract;
 import com.kunfei.bookshelf.utils.NetworkUtil;
-import com.kunfei.bookshelf.utils.Theme.ThemeStore;
+import com.kunfei.bookshelf.utils.theme.ThemeStore;
 import com.kunfei.bookshelf.view.activity.BookDetailActivity;
 import com.kunfei.bookshelf.view.activity.ReadBookActivity;
 import com.kunfei.bookshelf.view.adapter.BookShelfAdapter;
@@ -141,7 +141,7 @@ public class BookListFragment extends MBaseFragment<BookListContract.Presenter> 
             }
             refreshLayout.setRefreshing(false);
         });
-        MyItemTouchHelpCallback itemTouchHelpCallback = new MyItemTouchHelpCallback();
+        ItemTouchHelpCallback itemTouchHelpCallback = new ItemTouchHelpCallback();
         itemTouchHelpCallback.setSwipeRefreshLayout(refreshLayout);
         if (bookPx.equals("2")) {
             itemTouchHelpCallback.setDragEnable(true);
